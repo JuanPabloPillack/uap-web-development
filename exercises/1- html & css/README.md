@@ -24,10 +24,13 @@ Se puede ser creativo en el diseño.
 
 ### Bonus + practica en casa
 
-Implementar los siguientes diseños utilizando los conceptos vistos en clase, se valorará la correcta utilización de flexbox o grid y el uso de su creatividad para mejorar los diseños.
+Implementar el siguiente diseño utilizando los conceptos vistos en clase.
 
 ![Diseño](./img/random-business.png)
 
-![Diseño](./img/login.png)
+### Frontend Mentor
+- [Summary component](https://www.frontendmentor.io/challenges/results-summary-component-CE_K6s0maV)
+- [Stats preview card](https://www.frontendmentor.io/challenges/stats-preview-card-component-8JqbgoU62)
 
-![Diseño](./img/mobile.png)
+
+
