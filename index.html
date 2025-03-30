@@ -1,11 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gestor de Tareas</title>
+    <link rel="stylesheet" href="styles.css">
+    
 </head>
 <body>
+    <div class="container">
+
+        <h1 class="title">GESTOR DE<span class="highlighted"> TAREAS</span></h1>
+
+
+        <div class="pages">
+            <button class="page active">Rutinarias</button>
+            <button class="page">Trabajo</button>
+            <button class="add_page_button">+</button>
+        </div>
+
+        <div class="tasks_input">
+            <input type="text" placeholder="Introduce una Nueva Tarea" id="new_task">
+            <button class="add_task_button">AGREGAR</button>
+        </div>
+            
+        <div class="task_list">
+            <ul>
+                <li class="task completed">
+                    <span class="checkmark">✔</span> <span class="task_text">Lavar los platos</span>
+                    <span class="delete">X</span>
+                </li>
+                <li class="task">
+                    <span class="checkmark">o</span> <span class="task_text">ordenar el living</span>
+                    <span class="delete">X</span>
+                </li>
+            </ul>
+
+        </div>
+        <button class="clear_button">Borrar los terminados</button>
+    </div>
+    <!--
+    <form>
+        <label for="nueva-tarea">Nueva Tarea:</label>
+        <input type="text" id="nueva-tarea" name="nueva-tarea">
+        <button type="submit">Agregar</button>
+    </form>
+    -->
+    
+     <!--
+        <h2>Lista de Tareas</h2>
+    <ul>
+        <li>Trabajar (ni ahi) <button>TERMINAR</button></li>
+        <li>Dormir(es la que va) <button>TERMINAR</button></li>
+        <li>Estudiar sistemas operativos (ni ahi) <button>TERMINAR</button></li>
+    </ul>
+     -->
     
 </body>
 </html>

@@ -1,0 +1,136 @@
+body{
+    font-family: Arial;
+    background-color: #f5f2ec;
+    text-align: center;
+    margin: 0;
+    padding: 30px;
+}
+
+.container{
+    background: #f7f2eb;
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.title{
+    font-size: 30px;
+    margin: 10px 0;
+    
+}
+
+.highlighted{
+    color:#d8822f;
+}
+
+.pages{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.page{
+    padding: 20px 15px;
+    border: none;
+    background: none;
+    color:#aaa;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.page.active{
+    font-weight: bold;
+    color: black;
+    border-bottom: 3px solid #d8822f;
+}
+
+.tasks_input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:#e9e4da ;
+    border-radius: 25px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.tasks_input input{
+    border: none;
+    background: none;
+    font-size: 16px;
+    flex: 1;
+    padding: 10px;
+    outline: none;
+
+}
+
+.add_task_button{
+    background: #63b0d1;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.add_task_button:hover{
+    background-color: #a97575;
+}
+
+.task_list{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fdf9f3;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 25px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.task .checkmark{
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
+}
+
+.task.completed .checkmark{
+    color: #d8822f;
+}
+
+.task.completed .task_text{
+    text-decoration: line-through;
+    color: #bbb;
+}
+
+.delete{
+    font-size: 18px;
+    color:#d9534f;
+    cursor: pointer;
+}
+
+.clear_button{
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    color: #d8822f;
+}
+
+.clear_button:hover{
+    text-decoration: underline;
+}
+
+.add_page_button{
+    
+    background-color: #a97575;
+    cursor: pointer;
+    padding: 20px;
+    font-size: 30px;
+    color: white;
+    
+}
