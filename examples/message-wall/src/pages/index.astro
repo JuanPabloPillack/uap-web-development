@@ -1,0 +1,90 @@
+---
+import MessageItem from "../components/MessageItem.astro";
+import Layout from "../layouts/Layout.astro";
+import { getMessages } from "../services/messages";
+
+// Get the search term from the URL query parameter
+const searchTerm = Astro.url.searchParams.get("search") || "";
+
+// Pass the search term to getMessages
+const messages = await getMessages(searchTerm);
+---
+
+<Layout>
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8">Muro de Mensajes</h1>
+
+    <div class="mb-6 bg-white p-6 rounded-lg shadow-md">
+      <form method="get" class="mb-6" id="search-form">
+        <div class="flex gap-2">
+          <input
+            type="text"
+            name="search"
+            placeholder="Search messages..."
+            value={searchTerm}
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="submit"
+            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition-colors cursor-pointer"
+          >
+            Buscar
+          </button>
+          <a
+            id="clear-button"
+            href="/"
+            class={`bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md transition-colors flex items-center ${
+              !searchTerm ? "hidden" : ""
+            }`}
+          >
+            Clear
+          </a>
+        </div>
+      </form>
+
+      <form
+        method="post"
+        action="/api/messages"
+        class="flex gap-2"
+        id="add-message-form"
+      >
+        <input
+          type="text"
+          name="content"
+          placeholder="Type a message..."
+          class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+          autofocus
+        />
+        <button
+          type="submit"
+          class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors cursor-pointer"
+        >
+          Agregar
+        </button>
+      </form>
+    </div>
+
+    {
+      searchTerm && (
+        <div class="mb-4">
+          <p class="text-gray-600">
+            {messages.length === 0
+              ? `No messages found for "${searchTerm}"`
+              : `Showing ${messages.length} result${messages.length === 1 ? "" : "s"} for "${searchTerm}"`}
+          </p>
+        </div>
+      )
+    }
+
+    <ul class="space-y-4" id="messages-list">
+      {messages.map((message) => <MessageItem message={message} />)}
+    </ul>
+  </div>
+
+  <template id="message-item">
+    <MessageItem />
+  </template>
+</Layout>
+
+<script src="../script.ts"></script>
