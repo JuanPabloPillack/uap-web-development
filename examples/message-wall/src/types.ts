@@ -1,6 +1,5 @@
-export type Message = {
+export type Mensaje = {
   id: string;
   content: string;
   likes: number;
-  createdAt: Date;
 };
