@@ -34,6 +34,7 @@ export const POST: APIRoute = async ({ request, params, redirect }) => {
 
   try {
     if (action === "like") {
+      await new Promise((resolve) => setTimeout(resolve, 3000));
       mensaje = likeMensaje(id);
     } else if (action === "delete") {
       mensaje = deleteMensaje(id);

@@ -5,6 +5,7 @@ import { MensajeList } from "./components/MensajeList";
 import { useCallback, useEffect, useState } from "react";
 import type { Mensaje } from "./types";
 import { useDebounce } from "./utils/useDebounce";
+import { Stats } from "./components/Stats";
 
 const BASE_URL = "http://localhost:4321/api";
 
@@ -73,6 +74,7 @@ function App() {
 
   return (
     <>
+      <Stats mensajes={mensajes} />
       <section className="min-w-[50vw] flex flex-col gap-4 border border-gray-300 rounded-md p-8 m-8">
         <FilterForm search={search ?? ""} setSearch={setSearch} />
         <NuevoMensajeForm addMensaje={addMensaje} />

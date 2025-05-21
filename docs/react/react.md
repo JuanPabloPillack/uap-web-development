@@ -1117,21 +1117,23 @@ function Header() {
 import create from "zustand";
 
 // Create store
-const useStore = create((set) => ({
-  bears: 0,
-  increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-  removeAllBears: () => set({ bears: 0 }),
+const useCounterStore = create((set) => ({
+  count: 0,
+  increment: () => set((state) => ({ count: state.count + 1 })),
+  decrement: () => set((state) => ({ count: state.count - 1 })),
+  reset: () => set({ count: 0 }),
 }));
 
 // Component using the store
-function BearCounter() {
-  const bears = useStore((state) => state.bears);
-  const increasePopulation = useStore((state) => state.increasePopulation);
+function Counter() {
+  const { count, increment, decrement, reset } = useCounterStore();
 
   return (
     <div>
-      <h1>{bears} bears around here...</h1>
-      <button onClick={increasePopulation}>Add a bear</button>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+      <button onClick={reset}>Reset</button>
     </div>
   );
 }
@@ -1354,6 +1356,281 @@ function App() {
 - [Vite Documentation](https://vitejs.dev/guide/) for Vite features and plugins
 - [React Router Documentation](https://reactrouter.com/en/main) for routing guides
 - [Testing Library Documentation](https://testing-library.com/docs/react-testing-library/intro/) for testing guidance
+
+## Advanced State Management and Data Fetching
+
+### State Management vs. Data Fetching Libraries
+
+In modern React applications, we use two distinct categories of libraries to manage data:
+
+1. **State Management Libraries** (Redux, Zustand, Jotai, etc.) focus on managing UI state, application state, and business logic. They provide ways to store, update, and access state across your application with predictable patterns.
+
+2. **Data Fetching Libraries** (SWR, TanStack Query, etc.) focus specifically on fetching, caching, synchronizing, and updating server state. They handle the complex lifecycle of remote data including loading states, caching, background refreshing, and error handling.
+
+The key difference is that state management libraries primarily handle client-side state, while data fetching libraries manage server-side state and provide robust patterns for handling asynchronous data operations.
+
+### State Management Libraries
+
+#### Redux
+
+Redux is a predictable state container for JavaScript applications, commonly used with React. It follows a unidirectional data flow pattern with a single source of truth.
+
+```jsx
+import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { Provider, useSelector, useDispatch } from "react-redux";
+
+// Create a slice
+const counterSlice = createSlice({
+  name: "counter",
+  initialState: { value: 0 },
+  reducers: {
+    increment: (state) => {
+      state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    },
+  },
+});
+
+// Create store
+const store = configureStore({
+  reducer: {
+    counter: counterSlice.reducer,
+  },
+});
+
+// Extract actions
+const { increment, decrement } = counterSlice.actions;
+
+// Component using Redux
+function Counter() {
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => dispatch(increment())}>Increment</button>
+      <button onClick={() => dispatch(decrement())}>Decrement</button>
+    </div>
+  );
+}
+
+// Provide store to React app
+function App() {
+  return (
+    <Provider store={store}>
+      <Counter />
+    </Provider>
+  );
+}
+```
+
+Key features of Redux:
+
+- Centralized state management
+- Immutable updates using reducers
+- Middleware for side effects
+- Time-travel debugging
+- Rich ecosystem and developer tools
+
+#### Zustand
+
+Zustand is a small, fast, and scalable state management solution that uses hooks.
+
+```jsx
+import { create } from "zustand";
+
+// Create a store
+const useCounterStore = create((set) => ({
+  count: 0,
+  increment: () => set((state) => ({ count: state.count + 1 })),
+  decrement: () => set((state) => ({ count: state.count - 1 })),
+  reset: () => set({ count: 0 }),
+}));
+
+// Component using Zustand
+function Counter() {
+  const { count, increment, decrement, reset } = useCounterStore();
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+      <button onClick={reset}>Reset</button>
+    </div>
+  );
+}
+```
+
+Key features of Zustand:
+
+- Minimal API with hooks-based approach
+- No providers required
+- Supports middleware
+- Avoids unnecessary re-renders
+- TypeScript friendly
+- Can be used outside of React
+
+#### Jotai
+
+Jotai is an atomic state management library for React that focuses on primitive state atoms.
+
+```jsx
+import { atom, useAtom } from "jotai";
+
+// Create atoms
+const countAtom = atom(0);
+const doubleCountAtom = atom((get) => get(countAtom) * 2);
+
+// Component using Jotai
+function Counter() {
+  const [count, setCount] = useAtom(countAtom);
+  const [doubleCount] = useAtom(doubleCountAtom);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <p>Double Count: {doubleCount}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => setCount(count - 1)}>Decrement</button>
+    </div>
+  );
+}
+
+// No providers needed for basic usage
+function App() {
+  return <Counter />;
+}
+```
+
+Key features of Jotai:
+
+- Atomic model inspired by Recoil
+- Bottom-up composition of state
+- No boilerplate compared to Redux
+- Built for React with Suspense support
+- Small bundle size
+- Can replace useState and useContext
+
+### Data Fetching Libraries
+
+#### SWR
+
+SWR (stale-while-revalidate) is a React Hooks library for data fetching that implements a smart caching strategy.
+
+```jsx
+import useSWR from "swr";
+
+// Fetch function
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+function UserProfile({ userId }) {
+  const { data, error, isLoading } = useSWR(`/api/users/${userId}`, fetcher);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading user data</div>;
+
+  return (
+    <div>
+      <h1>{data.name}</h1>
+      <p>Email: {data.email}</p>
+    </div>
+  );
+}
+```
+
+Key features of SWR:
+
+- Automatic revalidation on window focus, network recovery, etc.
+- Deduplication of multiple same requests
+- Built-in pagination, infinite scrolling support
+- Lightweight and focused API
+- Real-time data updates
+- Local mutation for optimistic UI
+
+#### TanStack Query (React Query)
+
+TanStack Query is a powerful data synchronization library for fetching, caching, and updating asynchronous data.
+
+```jsx
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+  useMutation,
+} from "@tanstack/react-query";
+
+// Create a client
+const queryClient = new QueryClient();
+
+function UserProfile({ userId }) {
+  // Query
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["user", userId],
+    queryFn: () => fetch(`/api/users/${userId}`).then((res) => res.json()),
+  });
+
+  // Mutation
+  const mutation = useMutation({
+    mutationFn: (newUserData) =>
+      fetch(`/api/users/${userId}`, {
+        method: "PUT",
+        body: JSON.stringify(newUserData),
+      }).then((res) => res.json()),
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["user", userId] });
+    },
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <div>
+      <h1>{data.name}</h1>
+      <button
+        onClick={() => mutation.mutate({ ...data, name: "New Name" })}
+        disabled={mutation.isPending}
+      >
+        Update Name
+      </button>
+    </div>
+  );
+}
+
+// Provide client to application
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <UserProfile userId="123" />
+    </QueryClientProvider>
+  );
+}
+```
+
+Key features of TanStack Query:
+
+- Powerful caching and automatic garbage collection
+- Parallel queries, dependent queries, and paginated/infinite queries
+- Mutations with optimistic updates and rollbacks
+- Request deduplication and retry logic
+- Prefetching capabilities
+- DevTools for debugging and visualization
+- Server-side rendering support
+
+### Choosing the Right Library
+
+When selecting libraries for your React application:
+
+1. **For client state**: Choose Redux for large, complex applications with shared state; Zustand for simpler state needs with minimal boilerplate; or Jotai for fine-grained atomic state control.
+
+2. **For server state**: Use SWR for simple data fetching with automatic revalidation, or TanStack Query for more complex data synchronization needs including mutations and advanced caching.
+
+Many applications use a combination: a state management library for UI/application state and a data fetching library specifically for API interactions.
 
 ```
 
