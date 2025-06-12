@@ -16,6 +16,14 @@ class Database {
   private async init() {
     if (process.env.POPULATE_DB === "true") {
       await this.run(`
+        CREATE TABLE IF NOT EXISTS users (
+          id TEXT PRIMARY KEY,
+          email TEXT NOT NULL,
+          password TEXT NOT NULL
+        )
+      `);
+
+      await this.run(`
       CREATE TABLE IF NOT EXISTS walls (
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL,

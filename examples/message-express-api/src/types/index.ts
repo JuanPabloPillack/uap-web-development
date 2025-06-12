@@ -27,3 +27,9 @@ export interface CreateMessageRequest {
 export interface UpdateMessageRequest {
   action: "like" | "delete";
 }
+
+export interface User {
+  id: string;
+  email: string;
+  password: string;
+}

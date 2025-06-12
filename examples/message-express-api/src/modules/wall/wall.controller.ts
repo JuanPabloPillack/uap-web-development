@@ -7,8 +7,10 @@ export class WallController {
 
   getAllWalls = async (req: Request, res: Response): Promise<void> => {
     try {
+      const userEmail = req.user.email;
+
       const walls = await this.wallService.getAllWalls();
-      res.json({ walls });
+      res.json({ walls, email: userEmail });
     } catch (error) {
       console.error("Error getting walls:", error);
       res.status(500).json({ error: "Failed to retrieve walls" });
@@ -34,6 +36,12 @@ export class WallController {
 
   createWall = async (req: Request, res: Response): Promise<void> => {
     try {
+      const userId = req.user.id;
+      if (!userId) {
+        res.status(401).json({ error: "Unauthorized" });
+        return;
+      }
+
       const wallData: CreateWallRequest = req.body;
 
       if (!wallData.name) {

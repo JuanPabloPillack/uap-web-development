@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import { wallRoutes } from "./routes/wall.route";
 import { requestLogger } from "./middleware/request-logger.middleware";
+import { authRoutes } from "./routes/auth.route";
+import cookieParser from "cookie-parser";
 // import { messageRoutes } from "./routes/message.route";
 
 const app = express();
@@ -12,9 +14,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
+app.use(cookieParser("secret"));
 
 // Routes
 app.use("/api/walls", wallRoutes);
+app.use("/api/auth", authRoutes);
+
 // app.use("/api/messages", messageRoutes);
 
 // Health check endpoint
