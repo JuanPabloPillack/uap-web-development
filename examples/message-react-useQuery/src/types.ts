@@ -1,5 +1,5 @@
 export type Mensaje = {
   id: string;
-  content: string;
+  description: string;
   likes: number;
 };

@@ -26,6 +26,7 @@ export class AuthController {
       const user = await this.authService.createUser(userData);
       res.status(201).json(user);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Failed to create user" });
     }
   };
@@ -33,6 +34,7 @@ export class AuthController {
   login = async (req: Request, res: Response) => {
     try {
       const { email, password } = req.body;
+      console.log(email, password);
       const token = await this.authService.login(email, password);
       res.cookie("token", token, {
         secure: true,
@@ -42,6 +44,7 @@ export class AuthController {
       });
       res.json({ token });
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Failed to login" });
     }
   };

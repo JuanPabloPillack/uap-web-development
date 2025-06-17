@@ -2,6 +2,7 @@ import type { FormEvent } from "react";
 import { BASE_URL } from "../hooks/useMensajes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Mensaje } from "../types";
+import { useAuth } from "../hooks/useAuth";
 
 type NuevoMensajeFormProps = {
   search: string;
@@ -10,14 +11,16 @@ type NuevoMensajeFormProps = {
 export function NuevoMensajeForm({ search }: NuevoMensajeFormProps) {
   const queryClient = useQueryClient();
   const queryKey = ["mensajes", search];
+  const { token } = useAuth();
 
   const { mutate: addMensaje } = useMutation({
     mutationFn: async (content: string) => {
-      const response = await fetch(`${BASE_URL}/mensajes`, {
+      const response = await fetch(`${BASE_URL}/walls`, {
         method: "POST",
         body: JSON.stringify({ content }),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
       const data: { message: Mensaje } = await response.json();
