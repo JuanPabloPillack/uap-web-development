@@ -1,5 +1,3 @@
-#Ejercicio de App de Reseñas de Libros
-
 Descripción del Proyecto:
 Construir una plataforma de descubrimiento y reseñas de libros donde los usuarios pueden buscar libros, ver detalles y compartir reseñas con votación comunitaria.
 Características Principales:
@@ -26,3 +24,10 @@ Principal: **Google Books API**
 
 - Datos completos: Portadas, descripciones, cantidad de páginas, categorías, info de publicación
 - Imágenes de alta calidad: Múltiples tamaños de portada disponibles
+
+**Unit Testing**
+
+- Agregar pruebas unitarias que cubran completamente la lógica de negocios de su aplicación.
+- Utilizar vitest en conjunto con testing-library para esto.
+- Asegurense de probar todos los edge cases.
+- Distinguir claramente qué debe ser mockeado y qué debe probarse directamente.
