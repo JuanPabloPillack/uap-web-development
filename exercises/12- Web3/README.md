@@ -19,12 +19,14 @@ Desarrollar una aplicación web React que se conecte a la blockchain de Ethereum
 El contrato ya está desplegado y cuenta con las siguientes funciones principales:
 
 **Funciones del Faucet:**
+
 - `claimTokens()`: Permite reclamar 1,000,000 tokens (una vez por dirección)
 - `hasAddressClaimed(address)`: Verifica si una dirección ya reclamó tokens
 - `getFaucetUsers()`: Retorna array de direcciones que interactuaron con el faucet
 - `getFaucetAmount()`: Retorna la cantidad de tokens por reclamo
 
 **Funciones ERC20 relevantes:**
+
 - `balanceOf(address)`: Retorna el balance de tokens de una dirección
 - `transfer(address to, uint256 amount)`: Transfiere tokens a otra dirección
 - `approve(address spender, uint256 amount)`: Aprueba que otra dirección gaste tokens
@@ -63,6 +65,7 @@ El contrato ya está desplegado y cuenta con las siguientes funciones principale
 - **Chain ID**: 11155111
 - **RPC URL**: https://ethereum-sepolia-rpc.publicnode.com
 - **Faucet para ETH**: https://cloud.google.com/application/web3/faucet/ethereum/sepolia
+- **Contrato**: https://sepolia.etherscan.io/address/0x3e2117c19a921507ead57494bbf29032f33c7412#code
 
 ## Recursos Adicionales:
 
