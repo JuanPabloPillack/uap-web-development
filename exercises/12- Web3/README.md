@@ -178,3 +178,5 @@ CONTRACT_ADDRESS=0x3e2117c19a921507ead57494bbf29032f33c7412
 3. **Escalabilidad**: Posibilidad de agregar base de datos y lógica compleja
 4. **Gastos de Gas**: El backend maneja los costos de gas
 
+
+## repo de github de web3:
