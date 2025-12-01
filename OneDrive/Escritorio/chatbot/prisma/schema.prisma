@@ -1,0 +1,40 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Tabla para la lista "Quiero Leer"
+model ReadingListItem {
+  id        String   @id @default(cuid())
+  userId    String   @default("default-user")
+  googleId  String   // ID de Google Books
+  title     String
+  authors   String?
+  thumbnail String?
+  priority  String?  // high, medium, low
+  notes     String?
+  addedAt   DateTime @default(now())
+  
+  @@unique([userId, googleId])
+}
+
+// Tabla para libros ya leídos
+model ReadBook {
+  id           String   @id @default(cuid())
+  userId       String   @default("default-user")
+  googleId     String
+  title        String
+  authors      String?
+  thumbnail    String?
+  rating       Int?     // 1-5 estrellas
+  review       String?
+  pageCount    Int?
+  dateFinished DateTime @default(now())
+  
+  @@unique([userId, googleId])
+}
