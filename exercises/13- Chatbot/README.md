@@ -115,3 +115,9 @@ node_modules/
 - Configurar en dashboard de Vercel
 - Nunca exponer en código del cliente
 - Usar secrets management del proveedor
+
+
+
+
+
+-LINK DE AGENTES Y CHATBOT: https://github.com/JuanPabloPillack/Agente
